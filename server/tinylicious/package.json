@@ -34,6 +34,7 @@
 		"stop": "forever stop dist/index.js",
 		"test": "npm run test:mocha",
 		"test:mocha": "mocha --recursive dist/test -r node_modules/@fluidframework/mocha-test-setup --unhandled-rejections=strict",
+    "test:mocha:multireport": "nyc npm run test:mocha -- --reporter mocha-multi-reporters configFile=testConfig.json",
 		"tsc": "tsc"
 	},
 	"dependencies": {
@@ -95,6 +96,8 @@
 		"eslint": "~8.6.0",
 		"forever": "^4.0.3",
 		"mocha": "^10.0.0",
+    "mocha-json-output-reporter": "^2.0.1",
+    "mocha-multi-reporters": "^1.5.1",
 		"prettier": "~2.6.2",
 		"rimraf": "^2.6.2",
 		"ts-node": "^8.6.2",

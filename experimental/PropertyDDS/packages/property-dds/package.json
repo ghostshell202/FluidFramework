@@ -33,6 +33,7 @@
 		"prettier:fix": "prettier --write . --ignore-path ../../../../.prettierignore",
 		"test": "npm run test:mocha",
 		"test:mocha": "mocha \"dist/**/*.spec.js\" --exit -r node_modules/@fluidframework/mocha-test-setup --unhandled-rejections=strict",
+    "test:mocha:multireport": "nyc npm run test:mocha -- --reporter mocha-multi-reporters configFile=testConfig.json",
 		"test:mocha-ts": "cross-env FLUID_TEST_VERBOSE=1 TS_NODE_PROJECT=\"./src/test/tsconfig.json\" mocha --require ts-node/register --extensions ts,tsx  \"src/test/**/*.spec.ts\" --exit -r node_modules/@fluidframework/mocha-test-setup --unhandled-rejections=strict --timeout 1500000",
 		"test:mocha:verbose": "cross-env FLUID_TEST_VERBOSE=1 npm run test:mocha",
 		"tsc": "tsc"
@@ -83,6 +84,8 @@
 		"env-cmd": "^10.1.0",
 		"eslint": "~8.6.0",
 		"mocha": "^10.0.0",
+    "mocha-json-output-reporter": "^2.0.1",
+    "mocha-multi-reporters": "^1.5.1",
 		"nyc": "^15.0.0",
 		"prettier": "~2.6.2",
 		"rimraf": "^2.6.2",
