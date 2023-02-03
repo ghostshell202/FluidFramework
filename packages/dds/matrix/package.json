@@ -42,7 +42,7 @@
 		"test:memory": "mocha --config src/test/memory/.mocharc.js",
 		"test:memory-profiling:report": "mocha --config src/test/memory/.mocharc.js",
 		"test:mocha": "npm run stress -- --invert",
-		"test:mocha:multireport": "nyc npm run test:mocha -- --reporter mocha-multi-reporters configFile=testConfig.json",
+		"test:mocha:multireport": "nyc npm run test:mocha -- --reporter mocha-multi-reporters --reporter-options configFile=testConfig.json",
 		"test:mocha:verbose": "cross-env FLUID_TEST_VERBOSE=1 npm run test:mocha",
 		"tsc": "tsc",
 		"typetests:gen": "flub generate typetests --generate --dir .",

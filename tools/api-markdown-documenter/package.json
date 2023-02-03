@@ -35,7 +35,7 @@
 		"test": "npm run test:mocha",
 		"test:coverage": "nyc npm test -- --reporter xunit --reporter-option output=nyc/junit-report.xml",
 		"test:mocha": "mocha dist/**/*.test.js --unhandled-rejections=strict",
-    "test:mocha:multireport": "nyc npm run test:mocha -- --reporter mocha-multi-reporters configFile=testConfig.json",
+    "test:mocha:multireport": "nyc npm run test:mocha -- --reporter mocha-multi-reporters --reporter-options configFile=testConfig.json",
 		"tsc": "tsc"
 	},
 	"nyc": {
