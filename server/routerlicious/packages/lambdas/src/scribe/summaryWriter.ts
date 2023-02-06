@@ -612,8 +612,6 @@ export class SummaryWriter implements ISummaryWriter {
             logTail = logTailOpMessage.map((log) => log.operation);
         }
         
-        Lumberjack.info(`LogTail of length ${logTail.length} fetched from seq no ${gt} to ${lt}`, this.lumberProperties);
-
         // If the db is not updated with all logs yet, get them from checkpoint messages.
         if (logTail.length !== (lt - gt - 1)) {
             Lumberjack.info(`Populating logtail gaps`, this.lumberProperties);
@@ -623,6 +621,7 @@ export class SummaryWriter implements ISummaryWriter {
                     logTail.push(message.operation);
                 }
             }
+            Lumberjack.info(`Populated logtail gaps. nextSeq: ${nextSeq} LogtailLength: ${logTail.length}`, this.lumberProperties);
         }
         return logTail;
     }
