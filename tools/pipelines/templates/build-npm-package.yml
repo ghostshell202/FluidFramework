@@ -340,6 +340,34 @@ stages:
               mergeTestResults: false
             condition: and(succeededOrFailed(), eq(variables['startTest'], 'true'))
 
+          # Check Published Tests
+          - task: Bash@3
+            displayName: 'Check for nyc directory'
+            inputs:
+              targetType: 'inline'
+              workingDirectory: ${{ parameters.buildDirectory }}
+              script: |
+                test -d nyc && echo '##vso[task.setvariable variable=TestReportsExists;]true' || echo 'No nyc directory'
+            condition: and(succeededOrFailed(), eq(variables['startTest'], 'true'))
+
+          # Copy Test Reports
+          - task: CopyFiles@2
+            displayName: Copy Test Reports JSON
+            inputs:
+              SourceFolder: ${{ parameters.buildDirectory }}/nyc
+              Contents: '**/*junit-report.json'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)/testFiles'
+            condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
+
+          # Copy Test Reports
+          - task: CopyFiles@2
+            displayName: Copy Test Reports XML
+            inputs:
+              SourceFolder: ${{ parameters.buildDirectory }}/nyc
+              Contents: '**/*junit-report.xml'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)/testFiles'
+            condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
+
         # Pack
         - ${{ if ne(parameters.taskPack, false) }}:
           - task: Bash@3
