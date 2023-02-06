@@ -304,7 +304,7 @@ export interface SummaryElement {
 
 	/**
 	 * {@inheritDoc @fluidframework/datastore-definitions#(IChannel:interface).getAttachSummary}
-	 * @param stringify - Serializes the contents of the index (including {@link IFluidHandle}s) for storage.
+	 * @param stringify - Serializes the contents of the index (including {@link @fluidframework/core-interfaces#IFluidHandle}s) for storage.
 	 */
 	getAttachSummary(
 		stringify: SummaryElementStringifier,
@@ -315,7 +315,7 @@ export interface SummaryElement {
 
 	/**
 	 * {@inheritDoc @fluidframework/datastore-definitions#(IChannel:interface).summarize}
-	 * @param stringify - Serializes the contents of the index (including {@link IFluidHandle}s) for storage.
+	 * @param stringify - Serializes the contents of the index (including {@link @fluidframework/core-interfaces#IFluidHandle}s) for storage.
 	 */
 	summarize(
 		stringify: SummaryElementStringifier,
