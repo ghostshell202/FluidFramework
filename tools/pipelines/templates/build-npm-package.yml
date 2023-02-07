@@ -378,6 +378,7 @@ stages:
             inputs:
               artifact: testFiles
               path: $(System.DefaultWorkingDirectory)
+            condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
           # Print Failed Tests
           - task: Bash@3
