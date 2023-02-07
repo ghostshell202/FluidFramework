@@ -373,7 +373,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                for f in $(Build.ArtifactStagingDirectory)/testFiles
+                for f in $(Build.ArtifactStagingDirectory)/testFiles/*.json
                 do
                   python -c 'import sys,json;print json.load(sys.stdin)["failures"]' < $f
                 done
