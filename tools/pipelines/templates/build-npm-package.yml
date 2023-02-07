@@ -216,13 +216,6 @@ stages:
                 fi
               fi
 
-        # Install
-        - task: Bash@3
-          displayName: Fetch jq
-          inputs:
-            targetType: 'inline'
-            script: |
-              apt-get install jq
         - task: UseNode@1
           displayName: Use Node 14.x
           inputs:
@@ -374,15 +367,6 @@ stages:
               TargetFolder: '$(Build.ArtifactStagingDirectory)/testFiles'
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
-          # Fetch jq
-          # - task: Bash@3
-          #   displayName: Fetch jq
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       sudo apt-get install jq
-          #   condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
-
           # Print Failed Tests
           - task: Bash@3
             displayName: Print Failed Mocha Tests
@@ -391,7 +375,7 @@ stages:
               script: |
                 for f in $(Build.ArtifactStagingDirectory)/testFiles
                 do
-                  cat $f | jq '.failures[]'
+                  python -c 'import sys,json;print json.load(sys.stdin)["failures"]' < $f
                 done
               workingDirectory: '$(Build.ArtifactStagingDirectory)/testFiles'
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
