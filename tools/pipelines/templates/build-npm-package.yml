@@ -368,6 +368,26 @@ stages:
               TargetFolder: '$(Build.ArtifactStagingDirectory)/testFiles'
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
+          # Fetch jq
+          - task: Bash@3
+            displayName: Fetch jq
+            inputs:
+              targetType: 'inline'
+              script: |
+                sudo apt-get install jq
+                which jq
+            condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
+
+          # Print Failed Tests
+          - task: Bash@3
+            displayName: Print Failed Mocha Tests
+            inputs:
+              targetType: 'inline'
+              script: |
+                cat junit-report.json | jq '.failures[]'
+              workingDirectory: '$(Build.ArtifactStagingDirectory)/testFiles'
+            condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
+
         # Pack
         - ${{ if ne(parameters.taskPack, false) }}:
           - task: Bash@3
