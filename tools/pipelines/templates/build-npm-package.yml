@@ -371,9 +371,13 @@ stages:
             displayName: Publish Artifact - Test Files
             inputs:
               targetPath: '$(Build.ArtifactStagingDirectory)/testFiles'
-              artifactName: 'testFiles'
-              publishLocation: 'pipeline'
+              artifactName: testFiles
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
+
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: testFiles
+              path: $(System.DefaultWorkingDirectory)
 
           # Print Failed Tests
           - task: Bash@3
