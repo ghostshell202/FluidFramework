@@ -217,6 +217,13 @@ stages:
               fi
 
         # Install
+        - task: Bash@3
+          displayName: Fetch jq
+          inputs:
+            targetType: 'inline'
+            script: |
+              sudo apt-get install jq
+          condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
         - task: UseNode@1
           displayName: Use Node 14.x
           inputs:
@@ -369,13 +376,13 @@ stages:
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
           # Fetch jq
-          - task: Bash@3
-            displayName: Fetch jq
-            inputs:
-              targetType: 'inline'
-              script: |
-                sudo apt-get install jq
-            condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
+          # - task: Bash@3
+          #   displayName: Fetch jq
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       sudo apt-get install jq
+          #   condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
           # Print Failed Tests
           - task: Bash@3
