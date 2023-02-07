@@ -356,7 +356,6 @@ stages:
               SourceFolder: ${{ parameters.buildDirectory }}/nyc
               Contents: '**/*junit-report.json'
               TargetFolder: '$(Build.ArtifactStagingDirectory)/testFiles'
-              flattenFolders: true
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
           # Copy Test Reports
@@ -366,7 +365,14 @@ stages:
               SourceFolder: ${{ parameters.buildDirectory }}/nyc
               Contents: '**/*junit-report.xml'
               TargetFolder: '$(Build.ArtifactStagingDirectory)/testFiles'
-              flattenFolders: true
+            condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Artifact - Test Files
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)/testFiles'
+              artifactName: 'testFiles'
+              publishLocation: 'pipeline'
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
           # Print Failed Tests
@@ -377,7 +383,7 @@ stages:
               script: |
                 for f in $(Build.ArtifactStagingDirectory)/testFiles/*.json
                 do
-                  python -c 'import sys,json;print json.load(sys.stdin)["failures"]' < $f
+                  python -c 'import sys,json;print(json.load(sys.stdin)["failures"])' < $f
                 done
               workingDirectory: '$(Build.ArtifactStagingDirectory)/testFiles'
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
