@@ -375,7 +375,6 @@ stages:
               targetType: 'inline'
               script: |
                 sudo apt-get install jq
-                which jq
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
           # Print Failed Tests
@@ -384,7 +383,10 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                cat junit-report.json | jq '.failures[]'
+                for f in $(Build.ArtifactStagingDirectory)/testFiles
+                do
+                  cat $f | jq '.failures[]'
+                done
               workingDirectory: '$(Build.ArtifactStagingDirectory)/testFiles'
             condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
 
