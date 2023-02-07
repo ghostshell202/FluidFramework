@@ -222,7 +222,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              sudo apt-get install jq
+              apt-get install jq
         - task: UseNode@1
           displayName: Use Node 14.x
           inputs:
