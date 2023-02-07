@@ -223,7 +223,6 @@ stages:
             targetType: 'inline'
             script: |
               sudo apt-get install jq
-          condition: and(succeededOrFailed(), eq(variables['TestReportsExists'], 'true'))
         - task: UseNode@1
           displayName: Use Node 14.x
           inputs:
